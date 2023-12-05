@@ -25,6 +25,7 @@ public class Funcion {
     private Horario horario;
     private Cliente cliente;
 
+    // Metodo que lee toda los datos de la tabla funciones y los agrega a una lista.
     public static List<Funcion> getAll() {
         List<Funcion> funciones = new ArrayList();
         try {
@@ -62,6 +63,72 @@ public class Funcion {
         }
         return funciones;
     }
+    
+    public static boolean create(int empleadoId, int peliculaId, int salaId, int horarioId, int clienteId) {
+        boolean result = false;
+        try {
+            Connection conexion = MySQLConnection.get();
+            String query = "INSERT INTO funciones(empleado_id, pelicula_id, sala_id, horario_id, cliente_id) VALUES(?, ?, ?, ?, ?)";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setInt(1, empleadoId);
+            statement.setInt(2, peliculaId);
+            statement.setInt(3, salaId);
+            statement.setInt(4, horarioId);
+            statement.setInt(5, clienteId);
+            statement.execute();
+
+            result = statement.getUpdateCount() == 1;
+
+            conexion.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return result;
+    }
+
+    // Método que actualiza una de las filas de la tabla funciones.
+    public static boolean update(int id, int empleadoId, int peliculaId, int salaId, int horarioId, int clienteId) {
+        boolean result = false;
+        try {
+            Connection conexion = MySQLConnection.get();
+            String query = "UPDATE funciones SET empleado_id = ?, pelicula_id = ?, sala_id = ?, horario_id = ?, cliente_id = ? WHERE id = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setInt(1, empleadoId);
+            statement.setInt(2, peliculaId);
+            statement.setInt(3, salaId);
+            statement.setInt(4, horarioId);
+            statement.setInt(5, clienteId);
+            statement.setInt(6, id);
+            statement.execute();
+
+            result = statement.getUpdateCount() == 1;
+
+            conexion.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return result;
+    }
+
+    // Método que elimina una de las filas de la tabla funciones.
+    public static boolean delete(int id) {
+        boolean result = false;
+        try {
+            Connection conexion = MySQLConnection.get();
+            String query = "DELETE FROM funciones WHERE id = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.execute();
+
+            result = statement.getUpdateCount() == 1;
+
+            conexion.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return result;
+    }
+
 
     public static Empleado obtenerEmpleadoPorId(int empleadoId) {
         Empleado empleado = null;
