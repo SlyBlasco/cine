@@ -101,61 +101,61 @@ public class Funcion {
         return pelicula;
     }
 
-    public static Empleado obtenerEmpleadoPorId(int empleadoId) {
-        Empleado empleado = null;
+    public static Sala obtenerSalaPorId(int salaId) {
+        Sala sala = null;
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM empleados WHERE id = ?");
-            statement.setInt(1, empleadoId);
+            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM sala WHERE id = ?");
+            statement.setInt(1, salaId);
 
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                empleado = new Empleado();
-                empleado.setId(resultSet.getInt("id"));
+                sala = new Sala();
+                sala.setId(resultSet.getInt("id"));
             }
         } catch (SQLException e) {
             System.err.print("Error: " + e.getMessage());
         }
-        return empleado;
+        return sala;
     }
 
-    public static Empleado obtenerEmpleadoPorId(int empleadoId) {
-        Empleado empleado = null;
+    public static Horario obtenerHorarioPorId(int horarioId) {
+        Horario horario = null;
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM empleados WHERE id = ?");
-            statement.setInt(1, empleadoId);
+            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM horario WHERE id = ?");
+            statement.setInt(1, horarioId);
 
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                empleado = new Empleado();
-                empleado.setId(resultSet.getInt("id"));
+                horario = new Horario();
+                horario.setId(resultSet.getInt("id"));
             }
         } catch (SQLException e) {
             System.err.print("Error: " + e.getMessage());
         }
-        return empleado;
+        return horario;
     }
 
-    public static Empleado obtenerEmpleadoPorId(int empleadoId) {
-        Empleado empleado = null;
+    public static Cliente obtenerClientePorId(int clienteId) {
+        Cliente cliente = null;
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM empleados WHERE id = ?");
-            statement.setInt(1, empleadoId);
+            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM cliente WHERE id = ?");
+            statement.setInt(1, clienteId);
 
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                empleado = new Empleado();
-                empleado.setId(resultSet.getInt("id"));
+                cliente = new Cliente();
+                cliente.setId(resultSet.getInt("id"));
             }
         } catch (SQLException e) {
             System.err.print("Error: " + e.getMessage());
         }
-        return empleado;
+        return cliente;
     }
     public int getId() {
         return id;
