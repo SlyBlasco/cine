@@ -23,7 +23,6 @@ public class Funcion {
     private Pelicula pelicula;
     private Sala sala;
     private Horario horario;
-    private Cliente cliente;
 
     // Metodo que lee toda los datos de la tabla funciones y los agrega a una lista.
     public static List<Funcion> getAll() {
@@ -41,20 +40,17 @@ public class Funcion {
                 int peliculaId = resultSet.getInt("pelicula_id");
                 int salaId = resultSet.getInt("sala_id");
                 int horarioId = resultSet.getInt("horario_id");
-                int clienteId = resultSet.getInt("cliente_id");
 
                 // Suponiendo que tienes métodos para obtener instancias por ID en cada clase
                 Empleado empleado = obtenerEmpleadoPorId(empleadoId);
                 Pelicula pelicula = obtenerPeliculaPorId(peliculaId);
                 Sala sala = obtenerSalaPorId(salaId);
                 Horario horario = obtenerHorarioPorId(horarioId);
-                Cliente cliente = obtenerClientePorId(clienteId);
 
                 f.setEmpleado(empleado);
                 f.setPelicula(pelicula);
                 f.setSala(sala);
                 f.setHorario(horario);
-                f.setCliente(cliente);
 
                 funciones.add(f);
             }
@@ -206,24 +202,6 @@ public class Funcion {
         return horario;
     }
 
-    public static Cliente obtenerClientePorId(int clienteId) {
-        Cliente cliente = null;
-        try {
-            Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM cliente WHERE id = ?");
-            statement.setInt(1, clienteId);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                cliente = new Cliente();
-                cliente.setId(resultSet.getInt("id"));
-            }
-        } catch (SQLException e) {
-            System.err.print("Error: " + e.getMessage());
-        }
-        return cliente;
-    }
     public int getId() {
         return id;
     }
@@ -262,14 +240,6 @@ public class Funcion {
 
     public void setHorario(Horario horario) {
         this.horario = horario;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
 }
