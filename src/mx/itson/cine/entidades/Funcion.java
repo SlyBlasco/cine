@@ -81,6 +81,82 @@ public class Funcion {
         }
         return empleado;
     }
+
+    public static Pelicula obtenerPeliculaPorId(int peliculaId) {
+        Pelicula pelicula = null;
+        try {
+            Connection conexion = MySQLConnection.get();
+            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM peliculas WHERE id = ?");
+            statement.setInt(1, peliculaId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                pelicula = new Pelicula();
+                pelicula.setId(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            System.err.print("Error: " + e.getMessage());
+        }
+        return pelicula;
+    }
+
+    public static Empleado obtenerEmpleadoPorId(int empleadoId) {
+        Empleado empleado = null;
+        try {
+            Connection conexion = MySQLConnection.get();
+            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM empleados WHERE id = ?");
+            statement.setInt(1, empleadoId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                empleado = new Empleado();
+                empleado.setId(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            System.err.print("Error: " + e.getMessage());
+        }
+        return empleado;
+    }
+
+    public static Empleado obtenerEmpleadoPorId(int empleadoId) {
+        Empleado empleado = null;
+        try {
+            Connection conexion = MySQLConnection.get();
+            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM empleados WHERE id = ?");
+            statement.setInt(1, empleadoId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                empleado = new Empleado();
+                empleado.setId(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            System.err.print("Error: " + e.getMessage());
+        }
+        return empleado;
+    }
+
+    public static Empleado obtenerEmpleadoPorId(int empleadoId) {
+        Empleado empleado = null;
+        try {
+            Connection conexion = MySQLConnection.get();
+            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM empleados WHERE id = ?");
+            statement.setInt(1, empleadoId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                empleado = new Empleado();
+                empleado.setId(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            System.err.print("Error: " + e.getMessage());
+        }
+        return empleado;
+    }
     public int getId() {
         return id;
     }
