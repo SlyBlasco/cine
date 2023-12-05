@@ -22,8 +22,7 @@ public class Empleado {
     private String nombre;
     private String puesto;
     private double salario;
-    
-    // Metodo que lee toda los datos de la tabla empleados y los agrega a una lista de empleados.
+
     public static List<Empleado> getAll() {
         List<Empleado> empleados = new ArrayList();
         try {
@@ -46,7 +45,6 @@ public class Empleado {
         return empleados;
     }
 
-    // Metodo que crea filas en la tabla empleados.
     public static boolean create(String nombre, String puesto, int salario) {
         boolean result = false;
         try {
@@ -67,17 +65,15 @@ public class Empleado {
         return result;
     }
 
-    // Metodo que actualiza una de las filas de la tabla empleados.
-    public static boolean update(int id, String nombre, String puesto, int salario) {
+    public static boolean update(int id, String name, String phone) {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "UPDATE empleado SET nombre = ?, puesto = ?, salario = ? WHERE id = ?";
+            String query = "UPDATE officer SET name = ?, phone = ? WHERE id = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
-            statement.setString(1, nombre);
-            statement.setString(2, puesto);
-            statement.setInt(3, salario);
-            statement.setInt(4, id);
+            statement.setString(1, name);
+            statement.setString(2, phone);
+            statement.setInt(3, id);
             statement.execute();
 
             result = statement.getUpdateCount() == 1;
@@ -89,12 +85,11 @@ public class Empleado {
         return result;
     }
 
-    // Metodo que elimina una de las filas de la tabla empleados.
     public static boolean delete(int id) {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "DELETE empleado WHERE id = ?";
+            String query = "DELETE officer WHERE id = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setInt(1, id);
             statement.execute();
@@ -107,6 +102,8 @@ public class Empleado {
         }
         return result;
     }
+
+    
 
     public int getId() {
         return id;
