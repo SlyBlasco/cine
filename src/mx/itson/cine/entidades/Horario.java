@@ -22,7 +22,8 @@ public class Horario {
     private String horaInicio;
     private String horaFinal;
     private Date fecha;
-    
+
+    // Metodo que lee toda los datos de la tabla horarios y los agrega a una lista.
     public static List<Horario> getAll(){
         List<Horario> horarios = new ArrayList();
         try {
