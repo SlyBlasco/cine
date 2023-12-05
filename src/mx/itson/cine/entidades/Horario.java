@@ -4,7 +4,14 @@
  */
 package mx.itson.cine.entidades;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import mx.itson.cine.persistencia.MySQLConnection;
 
 /**
  *
@@ -12,10 +19,31 @@ import java.util.Date;
  */
 public class Horario {
     private int id;
-    private Sala sala;
     private String horaInicio;
     private String horaFinal;
     private Date fecha;
+    
+    public static List<Horario> getAll(){
+        List<Horario> horarios = new ArrayList();
+        try {
+            Connection conexion = MySQLConnection.get();
+            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM horarios");
+            
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                Horario h = new Horario();
+                h.setId(resultSet.getInt(1));
+                h.setHoraInicio(resultSet.getString(2));
+                h.setHoraFinal(resultSet.getString(3));
+                h.setFecha(resultSet.getDate(4));
+                horarios.add(h);
+            }
+        } catch (SQLException e) {
+            System.err.print("Error:"+ e.getMessage());
+        }
+        return horarios;
+    }
 
     public int getId() {
         return id;
@@ -24,15 +52,7 @@ public class Horario {
     public void setId(int id) {
         this.id = id;
     }
-
-    public Sala getSala() {
-        return sala;
-    }
-
-    public void setSala(Sala sala) {
-        this.sala = sala;
-    }
-
+    
     public String getHoraInicio() {
         return horaInicio;
     }

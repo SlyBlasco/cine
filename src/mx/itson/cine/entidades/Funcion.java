@@ -4,11 +4,20 @@
  */
 package mx.itson.cine.entidades;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import mx.itson.cine.persistencia.MySQLConnection;
+
 /**
  *
  * @author luism
  */
 public class Funcion {
+
     private int id;
     private Empleado empleado;
     private Pelicula pelicula;
@@ -16,6 +25,62 @@ public class Funcion {
     private Horario horario;
     private Cliente cliente;
 
+    public static List<Funcion> getAll() {
+        List<Funcion> funciones = new ArrayList();
+        try {
+            Connection conexion = MySQLConnection.get();
+            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM funciones");
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Funcion f = new Funcion();
+                f.setId(resultSet.getInt(1));
+                int empleadoId = resultSet.getInt("empleado_id");
+                int peliculaId = resultSet.getInt("pelicula_id");
+                int salaId = resultSet.getInt("sala_id");
+                int horarioId = resultSet.getInt("horario_id");
+                int clienteId = resultSet.getInt("cliente_id");
+
+                // Suponiendo que tienes métodos para obtener instancias por ID en cada clase
+                Empleado empleado = obtenerEmpleadoPorId(empleadoId);
+                Pelicula pelicula = obtenerPeliculaPorId(peliculaId);
+                Sala sala = obtenerSalaPorId(salaId);
+                Horario horario = obtenerHorarioPorId(horarioId);
+                Cliente cliente = obtenerClientePorId(clienteId);
+
+                f.setEmpleado(empleado);
+                f.setPelicula(pelicula);
+                f.setSala(sala);
+                f.setHorario(horario);
+                f.setCliente(cliente);
+
+                funciones.add(f);
+            }
+        } catch (SQLException e) {
+            System.err.print("Error:" + e.getMessage());
+        }
+        return funciones;
+    }
+
+    public static Empleado obtenerEmpleadoPorId(int empleadoId) {
+        Empleado empleado = null;
+        try {
+            Connection conexion = MySQLConnection.get();
+            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM empleados WHERE id = ?");
+            statement.setInt(1, empleadoId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                empleado = new Empleado();
+                empleado.setId(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            System.err.print("Error: " + e.getMessage());
+        }
+        return empleado;
+    }
     public int getId() {
         return id;
     }
@@ -63,6 +128,5 @@ public class Funcion {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
-    
+
 }
