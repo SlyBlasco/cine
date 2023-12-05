@@ -94,7 +94,7 @@ public class Empleado {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "DELETE empleado WHERE id = ?";
+            String query = "DELETE from empleado WHERE id = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setInt(1, id);
             statement.execute();

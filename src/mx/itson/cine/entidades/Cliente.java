@@ -90,7 +90,7 @@ public class Cliente {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "DELETE clientes WHERE id = ?";
+            String query = "DELETE from clientes WHERE id = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setInt(1, id);
             statement.execute();
