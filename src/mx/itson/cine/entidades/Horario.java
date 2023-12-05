@@ -45,6 +45,67 @@ public class Horario {
         return horarios;
     }
 
+      // Metodo que crea filas en la tabla horarios.
+    public static boolean create(String horaInicio, String horaFinal, Date fecha) {
+        boolean result = false;
+        try {
+            Connection conexion = MySQLConnection.get();
+            String query = "INSERT INTO horarios(hora_inicio, hora_final, fecha) VALUES(? , ? , ?)";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setString(1, horaInicio);
+            statement.setString(2, horaFinal);
+            statement.setDate(3, (java.sql.Date) fecha);
+            statement.execute();
+
+            result = statement.getUpdateCount() == 1;
+
+            conexion.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return result;
+    }
+
+    // Metodo que actualiza una de las filas de la tabla horarios.
+    public static boolean update(int id, String horaInicio, String horaFinal, Date fecha) {
+        boolean result = false;
+        try {
+            Connection conexion = MySQLConnection.get();
+            String query = "UPDATE horarios SET hora_inicio = ?, hora_final = ?, fecha = ? WHERE id = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setString(1, horaInicio);
+            statement.setString(2, horaFinal);
+            statement.setDate(3, (java.sql.Date) fecha);
+            statement.setInt(4, id);
+            statement.execute();
+
+            result = statement.getUpdateCount() == 1;
+
+            conexion.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return result;
+    }
+
+    // Metodo que elimina una de las filas de la tabla horarios.
+    public static boolean delete(int id) {
+        boolean result = false;
+        try {
+            Connection conexion = MySQLConnection.get();
+            String query = "DELETE from horarios WHERE id = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.execute();
+
+            result = statement.getUpdateCount() == 1;
+
+            conexion.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return result;
+    }
     public int getId() {
         return id;
     }
