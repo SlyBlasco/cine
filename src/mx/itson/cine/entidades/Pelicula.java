@@ -23,6 +23,7 @@ public class Pelicula {
     private int duracion;
     private String sinopsis;
 
+    // Metodo que lee toda los datos de la tabla peliculas y los agrega a una lista.
     public static List<Pelicula> getAll(){
         List<Pelicula> peliculas = new ArrayList();
         try {
@@ -46,15 +47,17 @@ public class Pelicula {
         return peliculas;
     }
     
-    public static boolean create(String nombre, String puesto, int salario){
+    // Metodo que crea filas en la tabla peliculas.
+    public static boolean create(String titulo, String genero, int duracion, String sinopsis){
             boolean result = false;
             try {
                 Connection conexion  = MySQLConnection.get();
-                String query = "INSERT INTO empleados(nombre, puesto, salario) VALUES(? , ? , ?)";
+                String query = "INSERT INTO peliculas(titulo, genero, duracion, sinopsis) VALUES(? , ? , ?, ?)";
                 PreparedStatement statement = conexion.prepareStatement(query);
-                statement.setString(1, nombre);
-                statement.setString(2, puesto);
-                statement.setInt(3, salario);
+                statement.setString(1, titulo);
+                statement.setString(2, genero);
+                statement.setInt(3, duracion);
+                statement.setString(4, sinopsis);
                 statement.execute();
                 
                 result = statement.getUpdateCount() == 1;
@@ -65,6 +68,49 @@ public class Pelicula {
             }
             return result;
         }
+    
+     // Metodo que actualiza una de las filas de la tabla peliculas.
+    public static boolean update(int id, String titulo, String genero, int duracion, String sinopsis) {
+        boolean result = false;
+        try {
+            Connection conexion = MySQLConnection.get();
+            String query = "UPDATE peliculas SET titulo = ?, genero = ?, duracion = ?, sinopsis = ? WHERE id = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setString(1, titulo);
+            statement.setString(2, genero);
+            statement.setInt(3, duracion);
+            statement.setString(4, sinopsis);
+            statement.setInt(5, id);
+            statement.execute();
+
+            result = statement.getUpdateCount() == 1;
+
+            conexion.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return result;
+    }
+
+    // Metodo que elimina una de las filas de la tabla peliculas.
+    public static boolean delete(int id) {
+        boolean result = false;
+        try {
+            Connection conexion = MySQLConnection.get();
+            String query = "DELETE from peliculas WHERE id = ?";
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.execute();
+
+            result = statement.getUpdateCount() == 1;
+
+            conexion.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return result;
+    }
+    
     public int getId() {
         return id;
     }
