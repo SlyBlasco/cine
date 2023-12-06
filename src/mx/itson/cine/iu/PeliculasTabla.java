@@ -9,8 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import mx.itson.cine.entidades.Pelicula;
 
 /**
- *
- * @author Hp Envy 360
+ * Clase JFrame que muestra la tabla peliculas y tiene los botones del CRUD
+ * @author Luis Blasco, Mario Le Blohic, Emiliano Bojorquez
  */
 public class PeliculasTabla extends javax.swing.JFrame {
 
@@ -23,6 +23,7 @@ public class PeliculasTabla extends javax.swing.JFrame {
         actualizarTabla(filtro);
     }
     
+    //Metodo para mostrar todos los datos de las tablas
     public void actualizarTabla(String filtro) {
         DefaultTableModel peliculasModel = (DefaultTableModel) tblPeliculas.getModel();
         peliculasModel.setRowCount(0);
@@ -230,6 +231,7 @@ public class PeliculasTabla extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Metodo para utilizar el metodo update de Pelicula
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         Pelicula.update(Integer.parseInt(txfId.getText()), txfTitulo.getText(), txfGenero.getText(), Integer.parseInt(txfDuracion.getText()), txfSinopsis.getText());
         actualizarTabla(filtro);
@@ -243,16 +245,19 @@ public class PeliculasTabla extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txfSinopsisActionPerformed
 
+    //Metodo para utilizar el metodo create de Pelicula
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         Pelicula.create(txfTitulo.getText(), txfGenero.getText(), Integer.parseInt(txfDuracion.getText()), txfSinopsis.getText());
         actualizarTabla(filtro);
     }//GEN-LAST:event_btnCrearActionPerformed
 
+    //Metodo para utilizar el metodo delete de Pelicula
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         Pelicula.delete(Integer.parseInt(txfId.getText()));
         actualizarTabla(filtro);
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    //Metodo para filtrar la tabla con el texto del textfield
     private void txfBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfBuscarActionPerformed
         actualizarTabla(txfBuscar.getText());
     }//GEN-LAST:event_txfBuscarActionPerformed

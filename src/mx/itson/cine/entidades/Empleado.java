@@ -13,8 +13,8 @@ import java.sql.ResultSet;
 import mx.itson.cine.persistencia.MySQLConnection;
 
 /**
- *
- * @author luism
+ * Clase para declarar las mismas variablas de la tabla empleados, asi como los metodo CRUD.
+ * @author Luis Blasco, Mario Le Blohic, Emiliano Bojorquez
  */
 public class Empleado {
 

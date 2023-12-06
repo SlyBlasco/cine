@@ -9,8 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import mx.itson.cine.entidades.Empleado;
 
 /**
- *
- * @author luism
+ * Clase JFrame que muestra la tabla empleados y tiene los botones del CRUD
+ * @author Luis Blasco, Mario Le Blohic, Emiliano Bojorquez
  */
 public class EmpleadosTabla extends javax.swing.JFrame {
 
@@ -21,6 +21,7 @@ public class EmpleadosTabla extends javax.swing.JFrame {
         actualizarTabla(filtro);
     }
 
+    //Metodo para mostrar todos los datos de las tablas
     public void actualizarTabla(String filtro) {
         DefaultTableModel empleadosModel = (DefaultTableModel) tblEmpleados.getModel();
         empleadosModel.setRowCount(0);
@@ -214,20 +215,24 @@ public class EmpleadosTabla extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Metodo para filtrar la tabla con el texto del textfield
     private void txfBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfBuscarActionPerformed
         actualizarTabla(txfBuscar.getText());
     }//GEN-LAST:event_txfBuscarActionPerformed
 
+    //Metodo para utilizar el metodo create de Empleado
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         Empleado.create(txfNombre.getText(), txfPuesto.getText(), Integer.parseInt(txfSalario.getText()));
         actualizarTabla(filtro);
     }//GEN-LAST:event_btnCrearActionPerformed
-
+    
+    //Metodo para utilizar el metodo delete de Empleado
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         Empleado.delete(Integer.parseInt(txfId.getText()));
         actualizarTabla(filtro);
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    //Metodo para utilizar el metodo update de Empleado
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         Empleado.update(Integer.parseInt(txfId.getText()), txfNombre.getText(), txfPuesto.getText(), Integer.parseInt(txfSalario.getText()));
         actualizarTabla(filtro);

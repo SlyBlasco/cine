@@ -13,8 +13,8 @@ import java.util.List;
 import mx.itson.cine.persistencia.MySQLConnection;
 
 /**
- *
- * @author luism
+ * Clase para declarar las mismas variablas de la tabla salas, asi como los metodo CRUD.
+ * @author Luis Blasco, Mario Le Blohic, Emiliano Bojorquez
  */
 public class Sala {
     private int id;

@@ -9,8 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import mx.itson.cine.entidades.Sala;
 
 /**
- *
- * @author Hp Envy 360
+ * Clase JFrame que muestra la tabla salas y tiene los botones del CRUD
+ * @author Luis Blasco, Mario Le Blohic, Emiliano Bojorquez
  */
 public class SalasTabla extends javax.swing.JFrame {
 
@@ -24,6 +24,7 @@ public class SalasTabla extends javax.swing.JFrame {
         actualizarTabla(filtro);
     }
     
+    //Metodo para mostrar todos los datos de las tablas
     public void actualizarTabla(String filtro) {
         DefaultTableModel salasModel = (DefaultTableModel) tblSalas.getModel();
         salasModel.setRowCount(0);
@@ -208,21 +209,25 @@ public class SalasTabla extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Metodo para utilizar el metodo create de Sala
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         Sala.create(txfTipo.getText(), txfCapacidad.getText(), Boolean.parseBoolean(txfDisponibilidad.getText()));
         actualizarTabla(filtro);
     }//GEN-LAST:event_btnCrearActionPerformed
 
+    //Metodo para utilizar el metodo delete de Sala
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         Sala.delete(Integer.parseInt(txfId.getText()));
         actualizarTabla(filtro);
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    //Metodo para utilizar el metodo update de Sala
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         Sala.update(Integer.parseInt(txfId.getText()), txfTipo.getText(), txfCapacidad.getText(), Boolean.parseBoolean(txfDisponibilidad.getText()));
         actualizarTabla(filtro);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
+    //Metodo para filtrar la tabla con el texto del textfield
     private void txfBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfBuscarActionPerformed
         actualizarTabla(txfBuscar.getText());
     }//GEN-LAST:event_txfBuscarActionPerformed

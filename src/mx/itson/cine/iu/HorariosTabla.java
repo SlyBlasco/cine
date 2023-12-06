@@ -14,8 +14,8 @@ import javax.swing.table.DefaultTableModel;
 import mx.itson.cine.entidades.Horario;
 
 /**
- *
- * @author Hp Envy 360
+ * Clase JFrame que muestra la tabla horarios y tiene los botones del CRUD
+ * @author Luis Blasco, Mario Le Blohic, Emiliano Bojorquez
  */
 public class HorariosTabla extends javax.swing.JFrame {
 
@@ -30,6 +30,7 @@ public class HorariosTabla extends javax.swing.JFrame {
         actualizarTabla(filtro);
     }
 
+    //Metodo para mostrar todos los datos de las tablas
     public void actualizarTabla(String filtro) {
         DefaultTableModel horariosModel = (DefaultTableModel) tblHorarios.getModel();
         horariosModel.setRowCount(0);
@@ -225,6 +226,7 @@ public class HorariosTabla extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Metodo para utilizar el metodo create de Horario
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         try {
             // Formato de la fecha esperado
@@ -239,6 +241,7 @@ public class HorariosTabla extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCrearActionPerformed
 
+    //Metodo para utilizar el metodo delete de Horario
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         Horario.delete(Integer.parseInt(txfId.getText()));
         actualizarTabla(filtro);
@@ -252,6 +255,7 @@ public class HorariosTabla extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txfHoraInicialActionPerformed
 
+    //Metodo para utilizar el metodo update de Horario
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         try {
             // Formato de la fecha esperado
@@ -266,6 +270,7 @@ public class HorariosTabla extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
+    //Metodo para filtrar la tabla con el texto del textfield
     private void txfBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfBuscarActionPerformed
         actualizarTabla(txfBuscar.getText());
     }//GEN-LAST:event_txfBuscarActionPerformed

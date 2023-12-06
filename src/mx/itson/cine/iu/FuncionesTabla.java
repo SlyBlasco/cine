@@ -10,19 +10,20 @@ import javax.swing.table.DefaultTableModel;
 import mx.itson.cine.entidades.Funcion;
 
 /**
- *
- * @author luism
+ * Clase JFrame que muestra la tabla funciones y tiene los botones del CRUD
+ * @author Luis Blasco, Mario Le Blohic, Emiliano Bojorquez
  */
 public class FuncionesTabla extends javax.swing.JFrame {
 
     /**
-     * Creates new form FuncionTabla
+     * Creates new form FuncionesTabla
      */
     public FuncionesTabla() {
         initComponents();
         actualizarTabla();
     }
 
+    //Metodo para mostrar todos los datos de las tablas
     public void actualizarTabla() {
         DefaultTableModel funcionesModel = (DefaultTableModel) tblFunciones.getModel();
         funcionesModel.setRowCount(0);
@@ -206,22 +207,26 @@ public class FuncionesTabla extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Metodo para utilizar el metodo create de Funcion
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
 
         Funcion.create(Integer.parseInt(txfEmpleado.getText()), Integer.parseInt(txfPelicula.getText()), Integer.parseInt(txfSala.getText()), Integer.parseInt(txfHorario.getText()));
         actualizarTabla();
     }//GEN-LAST:event_btnCrearActionPerformed
 
+    //Metodo para utilizar el metodo delete de Funcion
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         Funcion.delete(Integer.parseInt(txfId.getText()));
         actualizarTabla();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    //Metodo para utilizar el metodo update de Funcion
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         Funcion.update(Integer.parseInt(txfId.getText()), Integer.parseInt(txfEmpleado.getText()), Integer.parseInt(txfPelicula.getText()), Integer.parseInt(txfSala.getText()), Integer.parseInt(txfHorario.getText()));
         actualizarTabla();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
+    
     private void txfIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfIdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txfIdActionPerformed
