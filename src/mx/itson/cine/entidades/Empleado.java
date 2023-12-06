@@ -24,12 +24,12 @@ public class Empleado {
     private double salario;
     
     // Metodo que lee toda los datos de la tabla empleados y los agrega a una lista de empleados.
-    public static List<Empleado> getAll() {
+    public static List<Empleado> getAll(String filtro) {
         List<Empleado> empleados = new ArrayList();
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM empleados");
-
+            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM empleados where nombre like ?");
+            statement.setString(1, "%"+ filtro +"%");
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -72,7 +72,7 @@ public class Empleado {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "UPDATE empleado SET nombre = ?, puesto = ?, salario = ? WHERE id = ?";
+            String query = "UPDATE empleados SET nombre = ?, puesto = ?, salario = ? WHERE id = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setString(1, nombre);
             statement.setString(2, puesto);
@@ -94,7 +94,7 @@ public class Empleado {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "DELETE from empleado WHERE id = ?";
+            String query = "DELETE from empleados WHERE id = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setInt(1, id);
             statement.execute();

@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import mx.itson.cine.persistencia.MySQLConnection;
 
@@ -24,12 +24,12 @@ public class Horario {
     private Date fecha;
 
     // Metodo que lee toda los datos de la tabla horarios y los agrega a una lista.
-    public static List<Horario> getAll(){
+    public static List<Horario> getAll(String filtro){
         List<Horario> horarios = new ArrayList();
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM horarios");
-            
+            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM horarios where fecha like ?");
+            statement.setString(1, "%"+ filtro +"%");
             ResultSet resultSet = statement.executeQuery();
             
             while (resultSet.next()) {
@@ -55,7 +55,7 @@ public class Horario {
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setString(1, horaInicio);
             statement.setString(2, horaFinal);
-            statement.setDate(3, (java.sql.Date) fecha);
+            statement.setDate(3,fecha);
             statement.execute();
 
             result = statement.getUpdateCount() == 1;
@@ -76,7 +76,7 @@ public class Horario {
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setString(1, horaInicio);
             statement.setString(2, horaFinal);
-            statement.setDate(3, (java.sql.Date) fecha);
+            statement.setDate(3, fecha);
             statement.setInt(4, id);
             statement.execute();
 
