@@ -4,17 +4,43 @@
  */
 package mx.itson.cine.iu;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import mx.itson.cine.entidades.Pelicula;
+
 /**
  *
  * @author Hp Envy 360
  */
 public class PeliculasTabla extends javax.swing.JFrame {
 
+    private String filtro = "";
     /**
      * Creates new form PeliculasTabla
      */
     public PeliculasTabla() {
         initComponents();
+        actualizarTabla(filtro);
+    }
+    
+    public void actualizarTabla(String filtro) {
+        DefaultTableModel peliculasModel = (DefaultTableModel) tblPeliculas.getModel();
+        peliculasModel.setRowCount(0);
+        try {
+            List<Pelicula> peliculas = Pelicula.getAll(filtro);
+            for (Pelicula p : peliculas) {
+                peliculasModel.addRow(new Object[]{
+                    p.getId(),
+                    p.getTitulo(),
+                    p.getGenero(),
+                    p.getDuracion(),
+                    p.getSinopsis()
+                });
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -42,6 +68,8 @@ public class PeliculasTabla extends javax.swing.JFrame {
         txfDuracion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txfSinopsis = new javax.swing.JTextField();
+        lblBuscar = new javax.swing.JLabel();
+        txfBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,8 +91,18 @@ public class PeliculasTabla extends javax.swing.JFrame {
         lblPeliculas.setText("Peliculas");
 
         btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar");
         btnActualizar.setToolTipText("");
@@ -97,10 +135,21 @@ public class PeliculasTabla extends javax.swing.JFrame {
             }
         });
 
+        lblBuscar.setText("Buscar por titulo:");
+
+        txfBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,17 +175,17 @@ public class PeliculasTabla extends javax.swing.JFrame {
                                     .addComponent(txfTitulo))
                                 .addGap(85, 85, 85)
                                 .addComponent(lblPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txfDuracion, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txfSinopsis))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txfSinopsis))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblBuscar)
+                            .addComponent(txfBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(71, 71, 71))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,9 +216,13 @@ public class PeliculasTabla extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txfDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txfSinopsis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txfSinopsis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txfBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -178,7 +231,8 @@ public class PeliculasTabla extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+        Pelicula.update(Integer.parseInt(txfId.getText()), txfTitulo.getText(), txfGenero.getText(), Integer.parseInt(txfDuracion.getText()), txfSinopsis.getText());
+        actualizarTabla(filtro);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void txfIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfIdActionPerformed
@@ -188,6 +242,20 @@ public class PeliculasTabla extends javax.swing.JFrame {
     private void txfSinopsisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfSinopsisActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txfSinopsisActionPerformed
+
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        Pelicula.create(txfTitulo.getText(), txfGenero.getText(), Integer.parseInt(txfDuracion.getText()), txfSinopsis.getText());
+        actualizarTabla(filtro);
+    }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        Pelicula.delete(Integer.parseInt(txfId.getText()));
+        actualizarTabla(filtro);
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txfBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfBuscarActionPerformed
+        actualizarTabla(txfBuscar.getText());
+    }//GEN-LAST:event_txfBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -233,9 +301,11 @@ public class PeliculasTabla extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblPeliculas;
     private javax.swing.JTable tblPeliculas;
+    private javax.swing.JTextField txfBuscar;
     private javax.swing.JTextField txfDuracion;
     private javax.swing.JTextField txfGenero;
     private javax.swing.JTextField txfId;
