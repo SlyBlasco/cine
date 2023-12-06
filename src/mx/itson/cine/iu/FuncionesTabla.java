@@ -15,32 +15,23 @@ import mx.itson.cine.entidades.Funcion;
  */
 public class FuncionesTabla extends javax.swing.JFrame {
 
-    private DefaultTableModel funcionModel;
-
     /**
      * Creates new form FuncionTabla
      */
     public FuncionesTabla() {
         initComponents();
-        funcionModel = (DefaultTableModel) tblFunciones.getModel();
         actualizarTabla();
     }
+
     public void actualizarTabla() {
-    funcionModel.setRowCount(0);
+        DefaultTableModel funcionesModel = (DefaultTableModel) tblFunciones.getModel();
+        funcionesModel.setRowCount(0);
 
-    try {
-        List<Funcion> funciones = Funcion.getAll();
-        
-        for (Funcion f : funciones) {
-            // Imprimir algunas propiedades para depuración
-                System.out.println("ID: " + f.getId());
-                System.out.println("Empleado: " + f.getEmpleado().getId());
-                System.out.println("Pelicula: " + f.getPelicula());
-                System.out.println("Sala: " + f.getSala().getId());
-                System.out.println("Horario: " + f.getHorario());
+        try {
+            List<Funcion> funciones = Funcion.getAll();
 
-                // Añadir la fila a la tabla
-                funcionModel.addRow(new Object[]{
+            for (Funcion f : funciones) {
+                funcionesModel.addRow(new Object[]{
                     f.getId(),
                     f.getEmpleado().getNombre(),
                     f.getPelicula().getTitulo(),
@@ -52,6 +43,7 @@ public class FuncionesTabla extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -215,7 +207,7 @@ public class FuncionesTabla extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-   
+
         Funcion.create(Integer.parseInt(txfEmpleado.getText()), Integer.parseInt(txfPelicula.getText()), Integer.parseInt(txfSala.getText()), Integer.parseInt(txfHorario.getText()));
         actualizarTabla();
     }//GEN-LAST:event_btnCrearActionPerformed

@@ -10,6 +10,8 @@ package mx.itson.cine.iu;
  */
 public class SalasTabla extends javax.swing.JFrame {
 
+    private String filtro = "";
+
     /**
      * Creates new form SalasTabla
      */

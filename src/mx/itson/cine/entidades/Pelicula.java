@@ -24,11 +24,12 @@ public class Pelicula {
     private String sinopsis;
 
     // Metodo que lee toda los datos de la tabla peliculas y los agrega a una lista.
-    public static List<Pelicula> getAll(){
+    public static List<Pelicula> getAll(String filtro){
         List<Pelicula> peliculas = new ArrayList();
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM peliculas");
+            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM peliculas WHERE titulo LIKE ?");
+            statement.setString(1, "%"+ filtro +"%");
             
             ResultSet resultSet = statement.executeQuery();
             
