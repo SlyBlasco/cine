@@ -4,6 +4,7 @@
  */
 package mx.itson.cine.iu;
 
+import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import mx.itson.cine.entidades.Funcion;
@@ -13,25 +14,78 @@ import mx.itson.cine.entidades.Funcion;
  * @author luism
  */
 public class FuncionTabla extends javax.swing.JFrame {
-    private JTextField idField, empleadoIdField, peliculaIdField, salaIdField, horarioIdField, clienteIdField;
+
+    private DefaultTableModel funcionModel;
+
     /**
      * Creates new form FuncionTabla
      */
     public FuncionTabla() {
         initComponents();
+        funcionModel = (DefaultTableModel) tblFunciones.getModel();
         actualizarTabla();
-        
     }
+    public void actualizarTabla() {
+    // Limpiamos la tabla antes de agregar nuevos datos
+    funcionModel.setRowCount(0);
 
-    public void actualizarTabla(){
-        DefaultTableModel funcionModel = (DefaultTableModel) tblFunciones.getModel();
-        funcionModel.setRowCount(0);
-        for (Funcion f : Funcion.getAll()) {
-            funcionModel.addRow(new Object[]{
-                f.getId(), f.getEmpleado(), f.getPelicula(), f.getSala(), f.getHorario()
-            });
+    try {
+        List<Funcion> funciones = Funcion.getAll();
+        
+        for (Funcion f : funciones) {
+            // Imprimir algunas propiedades para depuración
+                System.out.println("ID: " + f.getId());
+                System.out.println("Empleado: " + f.getEmpleado().getId());
+                System.out.println("Pelicula: " + f.getPelicula());
+                System.out.println("Sala: " + f.getSala().getId());
+                System.out.println("Horario: " + f.getHorario());
+
+                // Añadir la fila a la tabla
+                funcionModel.addRow(new Object[]{
+                    f.getId(),
+                    f.getEmpleado().getNombre(),
+                    f.getPelicula().getTitulo(),
+                    f.getSala().getId(),
+                    f.getHorario().getFecha()
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+/*
+    private void inicializarTabla() {
+        funcionModel = new DefaultTableModel();
+        funcionModel.addColumn("ID");
+        funcionModel.addColumn("Empleado");
+        funcionModel.addColumn("Pelicula");
+        funcionModel.addColumn("Sala");
+        funcionModel.addColumn("Horario");
+
+        // Establecer el modelo en la tabla
+        tblFunciones.setModel(funcionModel);
+    }
+/*
+    public void actualizarTabla() {
+        // Obtener la lista de funciones desde la base de datos
+        List<Funcion> funciones = Funcion.getAll();
+        System.out.println("Número de funciones recuperadas: " + funciones.size());
+        // Limpiar el modelo de la tabla antes de agregar nuevos datos
+        funcionModel.setRowCount(0);
+
+        // Agregar filas al modelo de la tabla
+        for (Funcion funcion : funciones) {
+            Object[] rowData = {
+                    funcion.getId(),
+                    funcion.getEmpleado().toString(),
+                    funcion.getPelicula().toString(),
+                    funcion.getSala().toString(),
+                    funcion.getHorario().toString()
+            };
+            funcionModel.addRow(rowData);
+        }
+    }
+*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +98,9 @@ public class FuncionTabla extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblFunciones = new javax.swing.JTable();
         lblTitulo = new javax.swing.JLabel();
+        btnCrear = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,25 +121,46 @@ public class FuncionTabla extends javax.swing.JFrame {
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Funciones");
 
+        btnCrear.setText("Crear");
+
+        btnEliminar.setText("Eliminar");
+
+        btnActualizar.setText("Actualizar");
+        btnActualizar.setToolTipText("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 959, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(294, 294, 294))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 959, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnActualizar)
+                            .addComponent(btnEliminar)
+                            .addComponent(btnCrear))))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                .addGap(2, 2, 2)
+                .addComponent(btnCrear)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEliminar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnActualizar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -126,6 +204,9 @@ public class FuncionTabla extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnCrear;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTable tblFunciones;

@@ -20,6 +20,7 @@ public class Sala {
     private int id;
     private String tipo;
     private int capacidad;
+    private boolean disponible;
     
     // Metodo que lee toda los datos de la tabla salas y los agrega a una lista.
     public static List<Sala> getAll() {
@@ -35,6 +36,7 @@ public class Sala {
                 s.setId(resultSet.getInt(1));
                 s.setTipo(resultSet.getString(2));
                 s.setCapacidad(resultSet.getInt(3));
+                s.setDisponible(resultSet.getBoolean(4));
                 salas.add(s);
             }
         } catch (SQLException e) {
@@ -44,14 +46,15 @@ public class Sala {
     }
 
     // Metodo que crea filas en la tabla salas.
-    public static boolean create(String tipo, String capacidad) {
+    public static boolean create(String tipo, String capacidad, boolean disponible) {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "INSERT INTO salas(tipo, capacidad) VALUES(? , ?)";
+            String query = "INSERT INTO salas(tipo, capacidad, disponible) VALUES(? , ? , ?)";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setString(1, tipo);
             statement.setString(2, capacidad);
+            statement.setBoolean(3, disponible);
             statement.execute();
 
             result = statement.getUpdateCount() == 1;
@@ -64,15 +67,16 @@ public class Sala {
     }
 
     // Metodo que actualiza una de las filas de la tabla salas.
-    public static boolean update(int id, String tipo, String capacidad) {
+    public static boolean update(int id, String tipo, String capacidad, boolean disponible) {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "UPDATE salas SET tipo = ?, capacidad = ? WHERE id = ?";
+            String query = "UPDATE salas SET tipo = ?, capacidad = ?, disponible = ? WHERE id = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setString(1, tipo);
             statement.setString(2, capacidad);
-            statement.setInt(3, id);
+            statement.setBoolean(3, disponible);
+            statement.setInt(4, id);
             statement.execute();
 
             result = statement.getUpdateCount() == 1;
@@ -125,6 +129,14 @@ public class Sala {
 
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
     }
     
     

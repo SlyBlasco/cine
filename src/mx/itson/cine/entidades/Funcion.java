@@ -26,30 +26,39 @@ public class Funcion {
 
     // Metodo que lee toda los datos de la tabla funciones y los agrega a una lista.
     public static List<Funcion> getAll() {
-        List<Funcion> funciones = new ArrayList();
+        List<Funcion> funciones = new ArrayList<>();
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM funciones");
+            PreparedStatement statement = conexion.prepareStatement(
+                    "SELECT funciones.id, empleados.id as empleado_id, empleados.nombre as empleado_nombre, "
+                    + "peliculas.titulo as pelicula_nombre, salas.id as sala_id, horarios.fecha as horario_fecha "
+                    + "FROM funciones "
+                    + "JOIN empleados ON funciones.empleado_id = empleados.id "
+                    + "JOIN peliculas ON funciones.pelicula_id = peliculas.id "
+                    + "JOIN salas ON funciones.sala_id = salas.id "
+                    + "JOIN horarios ON funciones.horario_id = horarios.id"
+            );
 
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 Funcion f = new Funcion();
-                f.setId(resultSet.getInt(1));
-                int empleadoId = resultSet.getInt("empleado_id");
-                int peliculaId = resultSet.getInt("pelicula_id");
-                int salaId = resultSet.getInt("sala_id");
-                int horarioId = resultSet.getInt("horario_id");
+                f.setId(resultSet.getInt("id"));
 
-                // Suponiendo que tienes métodos para obtener instancias por ID en cada clase
-                Empleado empleado = obtenerEmpleadoPorId(empleadoId);
-                Pelicula pelicula = obtenerPeliculaPorId(peliculaId);
-                Sala sala = obtenerSalaPorId(salaId);
-                Horario horario = obtenerHorarioPorId(horarioId);
-
+                Empleado empleado = new Empleado();
+                empleado.setNombre(resultSet.getString("empleado_nombre"));
                 f.setEmpleado(empleado);
+
+                Pelicula pelicula = new Pelicula();
+                pelicula.setTitulo(resultSet.getString("pelicula_nombre"));
                 f.setPelicula(pelicula);
+
+                Sala sala = new Sala();
+                sala.setId(resultSet.getInt("sala_id"));
                 f.setSala(sala);
+
+                Horario horario = new Horario();
+                horario.setFecha(resultSet.getDate("horario_fecha"));
                 f.setHorario(horario);
 
                 funciones.add(f);
@@ -59,7 +68,7 @@ public class Funcion {
         }
         return funciones;
     }
-    
+
     public static boolean create(int empleadoId, int peliculaId, int salaId, int horarioId, int clienteId) {
         boolean result = false;
         try {
@@ -125,7 +134,6 @@ public class Funcion {
         return result;
     }
 
-
     public static Empleado obtenerEmpleadoPorId(int empleadoId) {
         Empleado empleado = null;
         try {
@@ -168,7 +176,7 @@ public class Funcion {
         Sala sala = null;
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM sala WHERE id = ?");
+            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM salas WHERE id = ?");
             statement.setInt(1, salaId);
 
             ResultSet resultSet = statement.executeQuery();
@@ -187,7 +195,7 @@ public class Funcion {
         Horario horario = null;
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM horario WHERE id = ?");
+            PreparedStatement statement = conexion.prepareStatement("SELECT id FROM horarios WHERE id = ?");
             statement.setInt(1, horarioId);
 
             ResultSet resultSet = statement.executeQuery();

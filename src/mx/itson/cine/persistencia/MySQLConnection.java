@@ -13,10 +13,9 @@ public class MySQLConnection {
     public static Connection get(){
         Connection conexion = null;
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine", "root", "");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine", "root", "guaymas");
         } catch (Exception e) {
             System.err.print("Error: "+ e.getMessage());
-            e.printStackTrace();
         }
         return conexion;
     }
