@@ -26,7 +26,6 @@ public class FuncionTabla extends javax.swing.JFrame {
         actualizarTabla();
     }
     public void actualizarTabla() {
-    // Limpiamos la tabla antes de agregar nuevos datos
     funcionModel.setRowCount(0);
 
     try {
@@ -53,39 +52,6 @@ public class FuncionTabla extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-/*
-    private void inicializarTabla() {
-        funcionModel = new DefaultTableModel();
-        funcionModel.addColumn("ID");
-        funcionModel.addColumn("Empleado");
-        funcionModel.addColumn("Pelicula");
-        funcionModel.addColumn("Sala");
-        funcionModel.addColumn("Horario");
-
-        // Establecer el modelo en la tabla
-        tblFunciones.setModel(funcionModel);
-    }
-/*
-    public void actualizarTabla() {
-        // Obtener la lista de funciones desde la base de datos
-        List<Funcion> funciones = Funcion.getAll();
-        System.out.println("Número de funciones recuperadas: " + funciones.size());
-        // Limpiar el modelo de la tabla antes de agregar nuevos datos
-        funcionModel.setRowCount(0);
-
-        // Agregar filas al modelo de la tabla
-        for (Funcion funcion : funciones) {
-            Object[] rowData = {
-                    funcion.getId(),
-                    funcion.getEmpleado().toString(),
-                    funcion.getPelicula().toString(),
-                    funcion.getSala().toString(),
-                    funcion.getHorario().toString()
-            };
-            funcionModel.addRow(rowData);
-        }
-    }
-*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -101,6 +67,16 @@ public class FuncionTabla extends javax.swing.JFrame {
         btnCrear = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
+        txfEmpleado = new javax.swing.JTextField();
+        txfPelicula = new javax.swing.JTextField();
+        txfSala = new javax.swing.JTextField();
+        txfId = new javax.swing.JTextField();
+        lblId = new javax.swing.JLabel();
+        lblEmpleado = new javax.swing.JLabel();
+        lblPelicula = new javax.swing.JLabel();
+        lblSala = new javax.swing.JLabel();
+        lblHorario = new javax.swing.JLabel();
+        txfHorario = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,51 +98,141 @@ public class FuncionTabla extends javax.swing.JFrame {
         lblTitulo.setText("Funciones");
 
         btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar");
         btnActualizar.setToolTipText("");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
+        txfId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfIdActionPerformed(evt);
+            }
+        });
+
+        lblId.setText("ID:");
+
+        lblEmpleado.setText("ID Empleado:");
+
+        lblPelicula.setText("ID Pelicula:");
+
+        lblSala.setText("ID Sala:");
+
+        lblHorario.setText("ID Horario:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(294, 294, 294))
             .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 959, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 22, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 959, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnActualizar)
-                            .addComponent(btnEliminar)
-                            .addComponent(btnCrear))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                            .addComponent(lblSala)
+                            .addComponent(lblEmpleado)
+                            .addComponent(txfHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblHorario)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txfSala, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                .addComponent(txfPelicula, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txfEmpleado, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txfId, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(lblId)
+                            .addComponent(lblPelicula))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(294, 294, 294))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnCrear)
+                                .addGap(34, 34, 34)
+                                .addComponent(btnEliminar)
+                                .addGap(29, 29, 29)
+                                .addComponent(btnActualizar)
+                                .addGap(53, 53, 53))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(btnCrear)
+                .addContainerGap()
+                .addComponent(lblId)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addComponent(lblEmpleado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEliminar)
+                .addComponent(txfEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnActualizar)
+                    .addComponent(btnCrear)
+                    .addComponent(btnEliminar)
+                    .addComponent(lblPelicula))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(txfPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSala)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txfSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(lblHorario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnActualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(txfHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+   
+        Funcion.create(Integer.parseInt(txfEmpleado.getText()), Integer.parseInt(txfPelicula.getText()), Integer.parseInt(txfSala.getText()), Integer.parseInt(txfHorario.getText()));
+        actualizarTabla();
+    }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        Funcion.delete(Integer.parseInt(txfId.getText()));
+        actualizarTabla();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        Funcion.update(Integer.parseInt(txfId.getText()), Integer.parseInt(txfEmpleado.getText()), Integer.parseInt(txfPelicula.getText()), Integer.parseInt(txfSala.getText()), Integer.parseInt(txfHorario.getText()));
+        actualizarTabla();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void txfIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txfIdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,7 +274,17 @@ public class FuncionTabla extends javax.swing.JFrame {
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblEmpleado;
+    private javax.swing.JLabel lblHorario;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblPelicula;
+    private javax.swing.JLabel lblSala;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTable tblFunciones;
+    private javax.swing.JTextField txfEmpleado;
+    private javax.swing.JTextField txfHorario;
+    private javax.swing.JTextField txfId;
+    private javax.swing.JTextField txfPelicula;
+    private javax.swing.JTextField txfSala;
     // End of variables declaration//GEN-END:variables
 }

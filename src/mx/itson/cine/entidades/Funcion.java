@@ -69,17 +69,16 @@ public class Funcion {
         return funciones;
     }
 
-    public static boolean create(int empleadoId, int peliculaId, int salaId, int horarioId, int clienteId) {
+    public static boolean create(int empleadoId, int peliculaId, int salaId, int horarioId) {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "INSERT INTO funciones(empleado_id, pelicula_id, sala_id, horario_id, cliente_id) VALUES(?, ?, ?, ?, ?)";
+            String query = "INSERT INTO funciones(empleado_id, pelicula_id, sala_id, horario_id) VALUES(?, ?, ?, ?)";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setInt(1, empleadoId);
             statement.setInt(2, peliculaId);
             statement.setInt(3, salaId);
             statement.setInt(4, horarioId);
-            statement.setInt(5, clienteId);
             statement.execute();
 
             result = statement.getUpdateCount() == 1;
@@ -92,18 +91,17 @@ public class Funcion {
     }
 
     // Método que actualiza una de las filas de la tabla funciones.
-    public static boolean update(int id, int empleadoId, int peliculaId, int salaId, int horarioId, int clienteId) {
+    public static boolean update(int id, int empleadoId, int peliculaId, int salaId, int horarioId) {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "UPDATE funciones SET empleado_id = ?, pelicula_id = ?, sala_id = ?, horario_id = ?, cliente_id = ? WHERE id = ?";
+            String query = "UPDATE funciones SET empleado_id = ?, pelicula_id = ?, sala_id = ?, horario_id = ? WHERE id = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setInt(1, empleadoId);
             statement.setInt(2, peliculaId);
             statement.setInt(3, salaId);
             statement.setInt(4, horarioId);
-            statement.setInt(5, clienteId);
-            statement.setInt(6, id);
+            statement.setInt(5, id);
             statement.execute();
 
             result = statement.getUpdateCount() == 1;
