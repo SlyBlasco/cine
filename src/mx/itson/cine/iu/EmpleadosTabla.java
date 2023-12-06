@@ -14,28 +14,21 @@ import mx.itson.cine.entidades.Empleado;
  */
 public class EmpleadosTabla extends javax.swing.JFrame {
 
-    /**
-     * Creates new form EmpleadosTabla
-     */
-    private DefaultTableModel empleadosModel;
     private String filtro = "";
-    /**
-     * Creates new form FuncionTabla
-     */
+
     public EmpleadosTabla() {
         initComponents();
-        empleadosModel = (DefaultTableModel) tblEmpleados.getModel();
         actualizarTabla(filtro);
     }
-    public void actualizarTabla(String filtro) {
-    // Limpiamos la tabla antes de agregar nuevos datos
-    empleadosModel.setRowCount(0);
 
-    try {
-        List<Empleado> empleados = Empleado.getAll(filtro);
-        
-        for (Empleado e : empleados) {
-            empleadosModel.addRow(new Object[]{
+    public void actualizarTabla(String filtro) {
+        DefaultTableModel empleadosModel = (DefaultTableModel) tblEmpleados.getModel();
+        empleadosModel.setRowCount(0);
+        try {
+            List<Empleado> empleados = Empleado.getAll(filtro);
+
+            for (Empleado e : empleados) {
+                empleadosModel.addRow(new Object[]{
                     e.getId(),
                     e.getNombre(),
                     e.getPuesto(),
@@ -46,6 +39,7 @@ public class EmpleadosTabla extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

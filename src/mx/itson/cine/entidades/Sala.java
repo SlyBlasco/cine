@@ -23,11 +23,12 @@ public class Sala {
     private boolean disponible;
     
     // Metodo que lee toda los datos de la tabla salas y los agrega a una lista.
-    public static List<Sala> getAll() {
+    public static List<Sala> getAll(String filtro) {
         List<Sala> salas = new ArrayList();
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM salas");
+            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM salas WHERE disponible LIKE ?");
+            statement.setString(1, "%"+ filtro +"%");
 
             ResultSet resultSet = statement.executeQuery();
 
